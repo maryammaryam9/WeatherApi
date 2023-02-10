@@ -1,0 +1,160 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="axios.min.js"></script>
+
+
+</head>
+<body>
+
+    <div id="weatherIcon">
+
+    </div>
+
+    <select name="" id="districtBox" onchange="loadTehsil(this.value)">
+        <option value="">Select Country</option>
+    </select>
+    <select name="" id="tehsilBox">
+        <option>Select City</option>
+    </select>
+        <button onclick="getWeather()">Get Weather</button>
+    <script>
+
+// ba0d1ebeb1mshbfc429ea41f9369p104907jsn415cbafaaee2
+
+
+
+
+        async function getWeather(){
+
+            try{
+
+
+                
+                let resp = await axios.get("http://api.weatherapi.com/v1/current.json?key=6129828d27af415ca8f141622221801&q="+tehsilBox.value);
+
+                console.log(resp.data);
+
+                let some = document.createElement('img');
+                some.src = 'http:' + resp.data.current.condition.icon;
+
+                weatherIcon.innerHTML = '';
+                weatherIcon.appendChild(some);
+
+
+                // document.body.appendChild(some);
+
+
+            }catch(e){
+
+                console.log(e.message);
+
+            }
+                // axios.get("http://api.weatherapi.com/v1/current.json?key=6129828d27af415ca8f141622221801&q="+tehsilBox.value).then(function (response) {
+                //     console.log(response.data);
+
+                // }).catch(function (error) {
+                //     console.error(error);
+                // });
+
+
+        }
+
+        function loadTehsil(districtName){
+
+            
+           let district = districtData.find(function(district){
+                if(district.name == districtName){
+                    return true;
+                }
+            });
+
+            tehsilBox.innerHTML = '<option>Select City</option>';
+
+            district.tehsil.forEach((tehsil)=>{
+
+                let ele =  document.createElement('option');
+                ele.innerText = tehsil;
+                tehsilBox.appendChild(ele);
+
+            })
+
+        }
+
+
+        let districtData = [
+           {
+               name:"Pakistan",
+               tehsil:[
+                   "karachi", "lahore", "faisalabad"
+               ]
+           },
+           {
+               name:"India",
+               tehsil:[
+                   "Delhi", "Haryana", "Shimla"
+               ]
+           }
+        ]
+
+
+        districtData.forEach((district)=>{
+
+            let ele =  document.createElement('option');
+            ele.innerText = district.name;
+
+            districtBox.appendChild(ele);
+
+        })
+
+
+       // let student = [
+       //     {
+       //         name:"ali",
+       //         district:"FSD",
+       //         tehsil:"shahkot"
+       //     },
+       //     {
+       //         name:"ahmed",
+       //         district:"FSD",
+       //         tehsil:"jaranwala"
+       //     },
+       //     {
+       //         name:"farhan",
+       //         district:"Toba",
+       //         tehsil:"Peer Mehal"
+       //     },
+       //     {
+       //         name:"noor",
+       //         district:"Toba",
+       //         tehsil:"Safdarabad"
+       //     }
+       // ]
+
+   //    let resp =  student.filter((student)=>{
+
+
+   //         let sahiDistrictH = districtData.find((district)=>{
+
+   //             if(district.name == student.district && district.tehsil.includes(student.tehsil)){
+   //                 return true;
+   //             }
+
+   //         })
+
+   //         if(sahiDistrictH){
+   //             return true
+   //         }
+
+   //     })
+
+
+   </script>
+    
+</body>
+</html>
